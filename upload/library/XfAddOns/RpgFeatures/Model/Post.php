@@ -78,6 +78,23 @@ class XfAddOns_RpgFeatures_Model_Post extends XFCP_XfAddOns_RpgFeatures_Model_Po
 		$options['joinTables'] .= ' LEFT JOIN xf_post_dice AS post_dice ON (post_dice.post_id = post.post_id)';
 		return $options;
 	}
+    
+	public function copyPosts(array $posts, array $sourceThreads, array $targetThread, array $options = array())
+	{
+        // strip out dice roller info from the posts. don't copy it for now.
+        $posts_ = array();
+        foreach ($posts AS $post)
+        {
+            unset($post['list_data']);        
+            unset($post['dice_data']);
+            unset($post['dice_box_count']);
+            $posts_[] = $post;
+        }
+        
+		$targetthread = parent::copyPosts($posts_, $sourceThreads, $targetThread, $options);
+        
+        return $targetthread;
+	}    
 
 
 }
