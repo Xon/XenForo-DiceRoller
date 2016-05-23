@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="xfa_dice" title="XFA - RPG Features" version_string="1.2.1" version_id="121" url="http://xfaddons.com/resources/throw-a-dice.6/" install_callback_class="XfAddOns_RpgFeatures_Install_Install" install_callback_method="install" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="xfa_dice" title="XFA - RPG Features" version_string="1.2.1a-sv" version_id="122" url="http://xfaddons.com/resources/throw-a-dice.6/" install_callback_class="XfAddOns_RpgFeatures_Install_Install" install_callback_method="install" uninstall_callback_class="" uninstall_callback_method="">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -7,9 +7,8 @@
   <admin_template_modifications/>
   <code_events/>
   <code_event_listeners>
-    <listener event_id="load_class_model" execute_order="10" callback_class="XfAddOns_RpgFeatures_Listener_Post" callback_method="listen" active="1" hint="" description="Extend the Post Model with functionality for throwing a dice"/>
-    <listener event_id="template_create" execute_order="10" callback_class="XfAddOns_RpgFeatures_Template_Hook" callback_method="templateCreate" active="1" hint="" description="Preload the option to throw the dice"/>
-    <listener event_id="template_hook" execute_order="10" callback_class="XfAddOns_RpgFeatures_Template_Hook" callback_method="template" active="1" hint="" description="Enable the option to throw the dice"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="XfAddOns_RpgFeatures_Listener_Post" callback_method="listen" active="1" hint="XenForo_Model_Thread" description="Extend the Post Model with functionality for throwing a dice"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="XfAddOns_RpgFeatures_Listener_Post" callback_method="listen" active="1" hint="XenForo_Model_Post" description="Extend the Post Model with functionality for throwing a dice"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -68,7 +67,7 @@
     <phrase title="cz_rpg_must_write_list_of_options" version_id="111" version_string="1.1.1"><![CDATA[You must write a list of at least 2 options]]></phrase>
     <phrase title="cz_rpg_no_permissions_choose_list" version_id="111" version_string="1.1.1"><![CDATA[You do not have permissions to use the choose from a list]]></phrase>
     <phrase title="cz_rpg_no_permissions_to_add_countdown" version_id="111" version_string="1.1.1"><![CDATA[You don't have permissions to add a countdown]]></phrase>
-    <phrase title="cz_rpg_no_permissions_to_throw_dice" version_id="111" version_string="1.1.1"><![CDATA[You don't have permissions to throw a dice in this post]]></phrase>
+    <phrase title="cz_rpg_no_permissions_to_throw_dice" version_id="111" version_string="1.1.1"><![CDATA[You don't have permissions to throw dice in this post]]></phrase>
     <phrase title="cz_rpg_option_no" version_id="101" version_string="1.1.1"><![CDATA[Option {no}]]></phrase>
     <phrase title="cz_rpg_please_enter_post_to_throw" version_id="111" version_string="1.1.1"><![CDATA[You don't seem to have thrown a dice in a post, enter the post]]></phrase>
     <phrase title="cz_rpg_position_error_not_exists" version_id="111" version_string="1.1.1"><![CDATA[Error. The position you are trying to throw the dice in does not exist.]]></phrase>
@@ -78,20 +77,20 @@
     <phrase title="cz_rpg_seconds" version_id="101" version_string="1.1.1"><![CDATA[seconds]]></phrase>
     <phrase title="cz_rpg_throwing_a_dice_for" version_id="101" version_string="1.1.1"><![CDATA[Throwing a dice for]]></phrase>
     <phrase title="cz_rpg_throw_another_dice" version_id="101" version_string="1.1.1"><![CDATA[Throw another dice]]></phrase>
-    <phrase title="cz_rpg_throw_a_dice" version_id="101" version_string="1.1.1"><![CDATA[Throw a dice]]></phrase>
+    <phrase title="cz_rpg_throw_a_dice" version_id="101" version_string="1.1.1"><![CDATA[Throw dice]]></phrase>
     <phrase title="cz_rpg_total" version_id="101" version_string="1.1.1"><![CDATA[Total]]></phrase>
     <phrase title="cz_rpg_user_threw_dice" version_id="101" version_string="1.1.1"><![CDATA[{user} threw {faces}-faced die for: {reason}]]></phrase>
     <phrase title="cz_rpg_when_countdown_ends" version_id="111" version_string="1.1.1"><![CDATA[When should the countdown end?]]></phrase>
     <phrase title="option_cz_enable_countdown" version_id="101" version_string="1.1.1"><![CDATA[Enable "Add a countdown"]]></phrase>
     <phrase title="option_cz_enable_countdown_explain" version_id="101" version_string="1.1.1"><![CDATA[If enabled, "Add a countdown" will be shown in the post]]></phrase>
     <phrase title="option_cz_enable_die" version_id="101" version_string="1.1.1"><![CDATA[Enable die]]></phrase>
-    <phrase title="option_cz_enable_die_explain" version_id="101" version_string="1.1.1"><![CDATA[If enabled, "Throw a dice" will be shown in the post]]></phrase>
+    <phrase title="option_cz_enable_die_explain" version_id="101" version_string="1.1.1"><![CDATA[If enabled, "Throw dice" will be shown in the post]]></phrase>
     <phrase title="option_cz_enable_list" version_id="101" version_string="1.1.1"><![CDATA[Enable choose from a list]]></phrase>
     <phrase title="option_cz_enable_list_explain" version_id="101" version_string="1.1.1"><![CDATA[If enabled, "Choose from a list" will be shown in the post]]></phrase>
     <phrase title="option_cz_max_die_per_box" version_id="111" version_string="1.1.1"><![CDATA[Max number of die per box]]></phrase>
     <phrase title="option_cz_max_die_per_box_explain" version_id="111" version_string="1.1.1"><![CDATA[Maximum number of die that can be thrown in a single box inside a post. Try to have something not too high.]]></phrase>
     <phrase title="option_cz_max_faces" version_id="111" version_string="1.1.1"><![CDATA[Faces for die throwing]]></phrase>
-    <phrase title="option_cz_max_faces_explain" version_id="111" version_string="1.1.1"><![CDATA[The max number of faces that can be used to throw a dice. Ideally between 2 and 100]]></phrase>
+    <phrase title="option_cz_max_faces_explain" version_id="111" version_string="1.1.1"><![CDATA[The max number of faces that can be used to throw dice. Ideally between 2 and 100]]></phrase>
     <phrase title="option_group_cz_rpg_options" version_id="101" version_string="1.1.1"><![CDATA[RPG Options]]></phrase>
     <phrase title="option_group_cz_rpg_options_description" version_id="101" version_string="1.1.1"><![CDATA[RPG options for your board like throwing die]]></phrase>
     <phrase title="xfa_rpg_dice_thrown" version_id="120" version_string="1.2.0"><![CDATA[Dice thrown]]></phrase>
@@ -287,55 +286,58 @@ fieldset.dice_container, fieldset.listr_container
 	</dl>
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="cz_rpg_thread_view_counter" version_id="101" version_string="1.1.1"><![CDATA[<xen:require css="cz_rpg_thread_view_counter.css" />
+    <template title="cz_rpg_thread_view_counter" version_id="122" version_string="1.2.1a-sv"><![CDATA[<xen:require css="cz_rpg_thread_view_counter.css" />
 
-<div id="container_dashboard">
-<div id="countdown_dashboard">
-	<div class="dash weeks_dash">
-		<span class="dash_title">{xen:phrase weeks}</span>
-		<div class="digit">{$weeks.0}</div>
-		<div class="digit">{$weeks.1}</div>
+<xen:if is="{$thread.rpg_counter}">
+
+	<div id="container_dashboard">
+	<div id="countdown_dashboard">
+		<div class="dash weeks_dash">
+			<span class="dash_title">{xen:phrase weeks}</span>
+			<div class="digit">{$weeks.0}</div>
+			<div class="digit">{$weeks.1}</div>
+		</div>
+	
+		<div class="dash days_dash">
+			<span class="dash_title">{xen:phrase days}</span>
+			<div class="digit">{$days.0}</div>
+			<div class="digit">{$days.1}</div>
+		</div>
+	
+		<div class="dash hours_dash">
+			<span class="dash_title">{xen:phrase hours}</span>
+			<div class="digit">{$hours.0}</div>
+			<div class="digit">{$hours.1}</div>
+		</div>
+	
+		<div class="dash minutes_dash">
+			<span class="dash_title">{xen:phrase cz_rpg_minutes}</span>
+			<div class="digit">{$minutes.0}</div>
+			<div class="digit">{$minutes.1}</div>
+		</div>
+	
+		<div class="dash seconds_dash">
+			<span class="dash_title">{xen:phrase cz_rpg_seconds}</span>
+			<div class="digit">{$seconds.0}</div>
+			<div class="digit">{$seconds.1}</div>
+		</div>
 	</div>
-
-	<div class="dash days_dash">
-		<span class="dash_title">{xen:phrase days}</span>
-		<div class="digit">{$days.0}</div>
-		<div class="digit">{$days.1}</div>
 	</div>
-
-	<div class="dash hours_dash">
-		<span class="dash_title">{xen:phrase hours}</span>
-		<div class="digit">{$hours.0}</div>
-		<div class="digit">{$hours.1}</div>
-	</div>
-
-	<div class="dash minutes_dash">
-		<span class="dash_title">{xen:phrase cz_rpg_minutes}</span>
-		<div class="digit">{$minutes.0}</div>
-		<div class="digit">{$minutes.1}</div>
-	</div>
-
-	<div class="dash seconds_dash">
-		<span class="dash_title">{xen:phrase cz_rpg_seconds}</span>
-		<div class="digit">{$seconds.0}</div>
-		<div class="digit">{$seconds.1}</div>
-	</div>
-</div>
-</div>
-
-<script>
-$('#countdown_dashboard').countDown({
-	targetOffset: {
-		'day': 		{$days.2},
-		'month': 	0,
-		'week': 	{$weeks.2},		
-		'year': 	0,
-		'hour': 	{$hours.2},
-		'min': 		{$minutes.2},
-		'sec': 		{$seconds.2}
-	}
-});
-</script>]]></template>
+	
+	<script>
+	$('#countdown_dashboard').countDown({
+		targetOffset: {
+			'day': 		{$days.2},
+			'month': 	0,
+			'week': 	{$weeks.2},		
+			'year': 	0,
+			'hour': 	{$hours.2},
+			'min': 		{$minutes.2},
+			'sec': 		{$seconds.2}
+		}
+	});
+	</script>
+</xen:if>	]]></template>
     <template title="cz_rpg_thread_view_counter.css" version_id="120" version_string="1.2.0"><![CDATA[#container_dashboard {
 	margin: auto;
 	width: 700px;
@@ -377,7 +379,30 @@ $('#countdown_dashboard').countDown({
 	letter-spacing: 2px;
 }]]></template>
   </templates>
-  <public_template_modifications/>
+  <public_template_modifications>
+    <modification template="message" modification_key="xfa_dice_message_1" description="dice" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<div class="messageTextEndMarker">&nbsp;</div>]]></find>
+      <replace><![CDATA[<xen:include template="cz_post_messageContent_dice" />
+$0]]></replace>
+    </modification>
+    <modification template="post" modification_key="xfa_dice_post_1" description="Dice controls" execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#(<div class="publicControls">.*?)(</div>)#s]]></find>
+      <replace><![CDATA[$1
+<xen:include template="cz_post_publicControls_dice" />
+$2]]></replace>
+    </modification>
+    <modification template="thread_view" modification_key="xfa_dice_thread_view_1" description="Preload the option to throw the dice" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:require css="thread_view.css" />]]></find>
+      <replace><![CDATA[$0
+<xen:require js="js/xfa-rpg/dice.js" />]]></replace>
+    </modification>
+    <modification template="thread_view" modification_key="xfa_dice_thread_view_2" description="View counter (not working)" execution_order="10" enabled="0" action="preg_replace">
+      <find><![CDATA[#(<div class="pageNavLinkGroup">.*?<div class="linkGroup SelectionCountContainer">.*?)(</div>)#s]]></find>
+      <replace><![CDATA[$1
+<xen:include template="cz_rpg_thread_view_counter" />
+$2]]></replace>
+    </modification>
+  </public_template_modifications>
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>
