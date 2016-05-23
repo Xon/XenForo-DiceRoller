@@ -50,6 +50,7 @@ class XfAddOns_RpgFeatures_Model_Dice
 		return $this->throwDice($post, $boxId);
 	}
 
+    
 	/**
 	 * Rolls a dice and stores the information into the database
 	 * @param $post		A reference to the post information that we want to update
@@ -66,7 +67,7 @@ class XfAddOns_RpgFeatures_Model_Dice
 
 		// actually roll the dice
 		$diceData = &$post['dice_data'][$boxId];
-		$diceRolled = rand(1, $diceData['faces']);
+		$diceRolled = mt_rand(1, $diceData['faces']);
 		$diceData['roll'][] = $diceRolled;
 		$diceData['total'] = array_sum($diceData['roll']);
 

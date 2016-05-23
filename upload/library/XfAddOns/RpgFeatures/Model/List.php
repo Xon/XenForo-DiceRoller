@@ -40,7 +40,7 @@ class XfAddOns_RpgFeatures_Model_List
 		$post['list_data'][$boxId]['boxId'] = $boxId;
 		$post['list_data'][$boxId]['options'] = $options;
 
-		$result = rand(0, count($options) - 1);
+		$result = mt_rand(0, count($options) - 1);
 		$post['list_data'][$boxId]['result'] = $result;
 
 			// send data to the database
