@@ -37,17 +37,15 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_incorrect_number_for_faces')));
         }
 
-        // settings we need
-        $options = XenForo_Application::get('options');
-
         // check that we don't exceed the maximum faces
         if ($faces < 2)
         {
             throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_least_2')));
         }
-        if ($faces > $options->cz_max_faces)
+        $cz_max_faces = XenForo_Application::getOptions()->cz_max_faces;
+        if ($faces > $cz_max_faces)
         {
-            throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_most_no', array( 'no' => $options->cz_max_faces ))));
+            throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_most_no', array( 'no' => $cz_max_faces ))));
         }
 
         // get the reason, if any
@@ -99,14 +97,12 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_position_error_not_exists')));
         }
 
-        // options we'll need
-        $options = XenForo_Application::get('options');
-
         // we can roll a maximum of dices
         $diceData = $post['dice_data'][$boxId];
-        if (count($diceData['roll']) >= $options->cz_max_die_per_box)
+        $cz_max_die_per_box = XenForo_Application::getOptions()->cz_max_die_per_box;
+        if (count($diceData['roll']) >= $cz_max_die_per_box)
         {
-            return $this->responseError(new XenForo_Phrase('cz_rpg_cannot_throw_no_die', array ( 'no' => $options->cz_max_die_per_box )));
+            return $this->responseError(new XenForo_Phrase('cz_rpg_cannot_throw_no_die', array ( 'no' => $cz_max_die_per_box )));
         }
 
         // and roll the dice
