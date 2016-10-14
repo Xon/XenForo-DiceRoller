@@ -295,7 +295,6 @@ fieldset.dice_container, fieldset.listr_container
 	</dl>
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-    <template title="dice" version_id="120" version_string="1.2.0"><![CDATA[<img src="styles/xfa-rpg/dice/{$dice}.png" alt="$dice" />]]></template>
     <template title="dice.css" version_id="101" version_string="1.0.1"><![CDATA[.dice_container
 {
 	margin: 10px;
