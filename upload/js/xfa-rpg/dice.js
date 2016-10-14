@@ -3,29 +3,25 @@
     XenForo.DiceRollForm = function($form) {
         $form.bind('AutoValidationComplete', function(e) {
             var ajaxData = e.ajaxData;
-             $('#post-' + ajaxData.postId + ' .messageMeta').before(ajaxData.template);
+            $('#post-' + ajaxData.postId + ' .messageMeta').before(ajaxData.templateHtml);
             $('#dice-' + ajaxData.postId + '-' + ajaxData.boxId).xfActivate();
         });
     };
 
-    XenForo.ThrowNewDice = function($button) {
-        var callback = function(ajaxData, textStatus) {
-            if (ajaxData.error) {
-                XenForo.hasResponseError(ajaxData, textStatus);
-            } else {
-                $('#dice-' + ajaxData.postId + '-' + ajaxData.boxId + ' .ThrowNewDice').before(ajaxData.template);
-                $('#diceLegendTotal-' + ajaxData.postId + '-' + ajaxData.boxId)l.html(ajaxData.total);
-            }
-        };
-
+    XenForo.ThrowAnotherDie = function($button) {
         $button.bind('click', function(e) {
             e.preventDefault();
-            XenForo.ajax($button.data('url'), {}, callback);
+            XenForo.ajax($button.data('url'), {}, function(ajaxData, textStatus) {
+                if (ajaxData.error) {
+                    XenForo.hasResponseError(ajaxData, textStatus);
+                } else {
+                    $('#dice-' + ajaxData.postId + '-' + ajaxData.boxId + ' .ThrowAnotherDie').before(ajaxData.template);
+                    $('#diceLegendTotal-' + ajaxData.postId + '-' + ajaxData.boxId).html(ajaxData.total);
+                }
+            });
         });
     };
-
     XenForo.register('#DiceRollForm', 'XenForo.DiceRollForm');
-    XenForo.register('button.ThrowNewDice', 'XenForo.ThrowNewDice');
-
+    XenForo.register('button.ThrowAnotherDie', 'XenForo.ThrowAnotherDie');
 }(jQuery, this, document);
 

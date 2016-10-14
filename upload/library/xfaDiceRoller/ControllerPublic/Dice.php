@@ -5,6 +5,16 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
     public function actionOptions()
     {
         $postId = $this->_input->filterSingle('post_id', XenForo_Input::UINT);
+
+        /* @var $ftpHelper XenForo_ControllerHelper_ForumThreadPost */
+        $ftpHelper = $this->getHelper('ForumThreadPost');
+        list($post, $thread, $forum) = $ftpHelper->assertPostValidAndViewable($postId);
+
+        if (empty($post['canThrowDie']))
+        {
+            return $this->responseNoPermission();
+        }
+
         return $this->responseView('XenForo_ViewPublic_Base', 'cz_rpg_dice_overlay', array(
             'post' => array(
                 'post_id' => $postId
@@ -19,15 +29,9 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         /* @var $ftpHelper XenForo_ControllerHelper_ForumThreadPost */
         $ftpHelper = $this->getHelper('ForumThreadPost');
         list($post, $thread, $forum) = $ftpHelper->assertPostValidAndViewable($postId);
-        if (!$post)
+        if (empty($post['canThrowDie']))
         {
-            return $this->responseException($this->responseNoPermission());
-        }
-
-        // validate that we can throw a dice
-        if (empty($post) || empty($post['canThrowDice']))
-        {
-            return $this->responseException($this->responseNoPermission());
+            return $this->responseNoPermission();
         }
 
 
@@ -35,17 +39,17 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         $faces = $this->_input->filterSingle('diceFaces', XenForo_Input::UINT);
         if (!$faces)
         {
-            throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_incorrect_number_for_faces')));
+            return $this->responseError(new XenForo_Phrase('cz_rpg_incorrect_number_for_faces'));
         }
         // check that we don't exceed the maximum faces
         if ($faces < 2)
         {
-            throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_least_2')));
+            return $this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_least_2'));
         }
         $cz_max_faces = XenForo_Application::getOptions()->cz_max_faces;
         if ($faces > $cz_max_faces)
         {
-            throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_most_no', array( 'no' => $cz_max_faces ))));
+            return $this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_most_no', array( 'no' => $cz_max_faces)));
         }
         // get the reason, if any
         $reason = $this->_input->filterSingle('diceReason', XenForo_Input::STRING);
@@ -54,22 +58,30 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
 
         XenForo_Db::beginTransaction();
 
-        $post['dice_data'] = $diceModel->getDiceData($post['post_id']);
-        list($post, $diceRoll) = $diceModel->throwNewDice($post, $faces, $reason);
+        $diceData = $diceModel->getDiceData($post['post_id']);
+        list($diceData, $diceRoll) = $diceModel->throwNewDice($post['thread_id'], $post['post_id'], $diceData, $faces, $reason);        
 
-        XenForo_Db::commit();
+        XenForo_Db::commit();        
 
         $viewParams = array(
             'postId' => $post['post_id'],
-            'boxId' => $boxId,
+            'boxId' => $diceRoll['boxId'],
             'total' => $diceRoll['total'],
-            'message' => $post,
             'dice' => $diceRoll['last_dice'],
+            'diceRoll' => $diceRoll,
+            'message' => $post,
         );
+
 
         if ($this->_noRedirect())
         {
-            return $this->responseView('xfaDiceRoller_ViewPublic_Dice', 'cz_dice', $viewParams);
+            $view = $this->responseView('xfaDiceRoller_ViewPublic_Dice', 'cz_post_diceData', $viewParams);
+            $view->jsonParams = array(
+                'postId' => $post['post_id'],
+                'boxId' => $diceRoll['boxId'],
+                'message' => new XenForo_Phrase('xfa_rpg_dice_thrown'),
+            );
+            return $view;
         }
         else
         {
@@ -83,11 +95,14 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
 
     public function actionAddMore()
     {
-        // validate that we can throw a dice
-        $post = $this->getPost();
+        $postId = $this->_input->filterSingle('post_id', XenForo_Input::UINT);
+
+        /* @var $ftpHelper XenForo_ControllerHelper_ForumThreadPost */
+        $ftpHelper = $this->getHelper('ForumThreadPost');
+        list($post, $thread, $forum) = $ftpHelper->assertPostValidAndViewable($postId);
         if (empty($post['canThrowDie']))
         {
-            return $this->responseException($this->responseNoPermission());
+            return $this->responseNoPermission();
         }
 
         // update the post type and dispatch to the view
@@ -95,30 +110,30 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
 
         if ($boxId < 0)
         {
-            throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_position_error_to_throw')));
+            return $this->responseError(new XenForo_Phrase('cz_rpg_position_error_to_throw'));
         }
 
         $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
 
         XenForo_Db::beginTransaction();
 
-        $post['dice_data'] = $model->getDiceData($post['post_id']);
+        $diceData = $model->getDiceData($post['post_id']);
 
-        if (!isset($post['dice_data']) || !isset($post['dice_data'][$boxId]))
+        if (empty($diceData) || empty($diceData[$boxId]))
         {
-            throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_position_error_not_exists')));
+            return $this->responseError(new XenForo_Phrase('cz_rpg_position_error_not_exists'));
         }
 
         // we can roll a maximum of dices
-        $diceData = $post['dice_data'][$boxId];
+        $diceBox = $diceData[$boxId];
         $cz_max_die_per_box = XenForo_Application::getOptions()->cz_max_die_per_box;
-        if (count($diceData['roll']) >= $cz_max_die_per_box)
+        if (count($diceBox['roll']) >= $cz_max_die_per_box)
         {
             return $this->responseError(new XenForo_Phrase('cz_rpg_cannot_throw_no_die', array ( 'no' => $cz_max_die_per_box )));
         }
 
         // and roll the dice
-        list($post, $diceRoll) = $model->throwDice($post, $boxId);
+        list($diceData, $diceRoll) = $model->throwDice($post['thread_id'],$post['post_id'], $diceData, $boxId);
 
         XenForo_Db::commit();
 
@@ -126,13 +141,14 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             'postId' => $post['post_id'],
             'boxId' => $boxId,
             'total' => $diceRoll['total'],
-            'message' => $post,
-            'dice' => $diceRoll['last_dice']
+            'dice' => $diceRoll['last_dice'],
         );
 
         if ($this->_noRedirect())
         {
-            return $this->responseView('xfaDiceRoller_ViewPublic_Dice', 'cz_dice', $viewParams);
+            $view = $this->responseView('xfaDiceRoller_ViewPublic_Dice', 'cz_dice', $viewParams);
+            $view->jsonParams = $viewParams;
+            return $view;
         }
         else
         {

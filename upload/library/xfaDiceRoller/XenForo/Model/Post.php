@@ -3,7 +3,7 @@
 class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_Post
 {
     protected static $diceRoller = null;
-    
+
     public function preparePost(array $post, array $thread, array $forum, array $nodePermissions = null, array $viewingUser = null)
     {
         $this->standardizeViewingUserReferenceForNode($thread['node_id'], $viewingUser, $nodePermissions);
@@ -14,25 +14,55 @@ class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_
         {
             self::$diceRoller = XenForo_Application::getOptions()->cz_enable_die;
         }
+
         if (self::$diceRoller)
         {
-            $post['canViewDice'] = $this->getViewDice($post, $thread, $forum, $nodePermissions, $viewingUser);
-            $post['canThrowDie'] = $post['canViewDice'] && $this->getCanThrowDie($post, $thread, $forum, $nodePermissions, $viewingUser);
+            $post['canViewDice'] = $this->canViewDice($post, $thread, $forum, $null, $nodePermissions, $viewingUser);
+            $post['canThrowDie'] = $post['canViewDice'] && $this->canThrowDie($post, $thread, $forum, $null, $nodePermissions, $viewingUser);
+
+            if ($post['canViewDice'] && !empty($post['dice_data']))
+            {
+                $diceData = @unserialize($post['dice_data']);
+                if ($diceData && is_array($diceData))
+                {
+                    $post['dice_data'] = $diceData;
+                }
+                else
+                {
+                    unset($post['dice_data']);
+                }
+            }
+            else
+            {
+                unset($post['dice_data']);
+            }
+
         }
-        if (isset($thread['dice_count']) && !isset($post['dice_count']))
-        {
-            $post['thread_dice_count'] = $thread['dice_count'];
-        }
+
         return $post;
     }
 
-    public function getViewDice(array $post, array $thread, array $forum, &$errorPhraseKey = '', array $nodePermissions = null, array $viewingUser = null)
+    public function canViewDice(array $post, array $thread, array $forum, &$errorPhraseKey = '', array $nodePermissions = null, array $viewingUser = null)
     {
+        $this->standardizeViewingUserReferenceForNode($thread['node_id'], $viewingUser, $nodePermissions);
+
+        if (empty($viewingUser['user_id']))
+        {
+            return false;
+        }
+
         return XenForo_Permission::hasContentPermission($nodePermissions, 'viewDice');
     }
 
-    public function getCanThrowDie(array $post, array $thread, array $forum, &$errorPhraseKey = '', array $nodePermissions = null, array $viewingUser = null)
+    public function canThrowDie(array $post, array $thread, array $forum, &$errorPhraseKey = '', array $nodePermissions = null, array $viewingUser = null)
     {
+        $this->standardizeViewingUserReferenceForNode($thread['node_id'], $viewingUser, $nodePermissions);
+
+        if (empty($viewingUser['user_id']))
+        {
+            return false;
+        }
+
         if (empty($post['canEdit']))
         {
             return false;
@@ -43,51 +73,32 @@ class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_
             return false;
         }
 
-        return $post['canEdit'] && ($post['user_id'] == $viewingUser['userId']);
+        return $post['canEdit'] && ($post['user_id'] == $viewingUser['user_id']);
     }
 
-    public function getAndMergeAttachmentsIntoPosts(array $posts)
+    public function preparePostJoinOptions(array $fetchOptions)
     {
-        $posts = parent::getAndMergeAttachmentsIntoPosts($posts);
+        $joinOptions = parent::preparePostJoinOptions($fetchOptions);
 
-        if (self::$diceRoller == null)
+        if (!empty($fetchOptions['dice']))
         {
-            self::$diceRoller = XenForo_Application::getOptions()->cz_enable_die;
-        }
-        if (self::$diceRoller)
-        {
-            $postIds = array();
-            foreach ($posts AS $postId => $post)
-            {
-                if (!empty($post['thread_dice_count']) && empty($post['isDeleted']) && !empty($post['canViewDice']))
-                {
-                    $postIds[] = $postId;
-                }
-            }
-
-            if ($postIds)
-            {
-                $dice = $this->fetchAllKeyed('
-                    SELECT post_id, dice_data
-                    FROM xf_post_dice
-                    WHERE post_id IN (' . $this->_getDb()->quote($postIds) . ')
-                ', 'post_id');
-
-                foreach ($dice AS $post_id => $die)
-                {
-                    if (!empty($die['dice_data']))
-                    {
-                        $dice_data = @unserialize($die['dice_data']);
-                        if ($dice_data && is_array($dice_data))
-                        {
-                            $posts[$post_id]['dice_data'] = $dice_data;
-                        }
-                    }
-                }
-            }
+            $joinOptions['selectFields'] .= ',dice_data';
+            $joinOptions['joinTables'] .= ' LEFT JOIN xf_post_dice AS post_dice ON (post_dice.post_id = post.post_id)';
         }
 
-        return $posts;
+        return $joinOptions;
+    }
+
+    public function getPermissionBasedPostFetchOptions(array $thread, array $forum, array $nodePermissions = null, array $viewingUser = null)
+    {
+        $fetchOptions = parent::getPermissionBasedPostFetchOptions($thread, $forum, $nodePermissions, $viewingUser);
+
+        if (!empty($thread['dice_count']))
+        {
+            $fetchOptions['dice'] = true;
+        }
+
+        return $fetchOptions;
     }
 }
 
