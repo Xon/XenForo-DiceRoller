@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="xfa_dice" title="XFA - DiceRoller" version_string="1.3.0-sv" version_id="1030000" url="https://atelieraphelion.com/" install_callback_class="xfaDiceRoller_Installer" install_callback_method="install" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="xfa_dice" title="XFA - DiceRoller" version_string="1.3.0-sv" version_id="1030000" url="https://atelieraphelion.com/" install_callback_class="xfaDiceRoller_Installer" install_callback_method="install" uninstall_callback_class="xfaDiceRoller_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -42,8 +42,6 @@
     <interface_groups/>
   </permissions>
   <phrases>
-    <phrase title="permission_forum_throwDie" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Can throw a die]]></phrase>
-    <phrase title="permission_forum_viewDice" version_id="1030000" version_string="1.3.0-sv"><![CDATA[View dice]]></phrase>
     <phrase title="cz_rpg_cannot_throw_no_die" version_id="111" version_string="1.1.1"><![CDATA[You cannot throw more than {no} die]]></phrase>
     <phrase title="cz_rpg_faces" version_id="101" version_string="1.1.1"><![CDATA[Faces]]></phrase>
     <phrase title="cz_rpg_faces_must_be_at_least_2" version_id="111" version_string="1.1.1"><![CDATA[You need to type at least 2 faces for the dice]]></phrase>
@@ -67,6 +65,16 @@
     <phrase title="option_cz_max_faces_explain" version_id="111" version_string="1.1.1"><![CDATA[The max number of faces that can be used to throw dice. Ideally between 2 and 100]]></phrase>
     <phrase title="option_group_cz_rpg_options" version_id="101" version_string="1.1.1"><![CDATA[RPG Options]]></phrase>
     <phrase title="option_group_cz_rpg_options_description" version_id="101" version_string="1.1.1"><![CDATA[RPG options for your board like throwing die]]></phrase>
+    <phrase title="permission_forum_throwDie" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Can throw a die]]></phrase>
+    <phrase title="permission_forum_viewDice" version_id="1030000" version_string="1.3.0-sv"><![CDATA[View dice]]></phrase>
+    <phrase title="style_property_diceRollerDie_description_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Styles the dice in the dice roller]]></phrase>
+    <phrase title="style_property_diceRollerDie_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Dice Roller Die]]></phrase>
+    <phrase title="style_property_diceRollerLegend_description_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Styles the title of the dice roller fieldset]]></phrase>
+    <phrase title="style_property_diceRollerLegend_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Dice Roller Title]]></phrase>
+    <phrase title="style_property_diceRoller_description_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Styles the main dice roller fieldset]]></phrase>
+    <phrase title="style_property_diceRoller_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Dice Roller]]></phrase>
+    <phrase title="style_property_group_CZ_DiceRoller_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[[CZ] Dice Roller]]></phrase>
+    <phrase title="style_property_group_CZ_DiceRoller_master_desc" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Dice roller styling]]></phrase>
     <phrase title="xfa_rpg_dice_thrown" version_id="120" version_string="1.2.0"><![CDATA[Dice thrown]]></phrase>
   </phrases>
   <route_prefixes>
@@ -74,15 +82,118 @@
       <prefix original_prefix="dice" class="xfaDiceRoller_Route_Prefix_Post" build_link="data_only"/>
     </route_type>
   </route_prefixes>
-  <style_properties/>
+  <style_properties>
+    <property property_name="diceRoller" property_type="css" definition="1" group_name="CZ_DiceRoller" title="Dice Roller" description="Styles the main dice roller fieldset" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="10" sub_group=""><![CDATA[{"background-color":"@advbbcodebar_fieldset.background-color","border-color":"@advbbcodebar_fieldset.border-color","border-radius":"5px","border-style":"solid","border-width":"1px","extra":"-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);\n-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);\nbox-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
+    <property property_name="diceRollerLegend" property_type="css" definition="1" group_name="CZ_DiceRoller" title="Dice Roller Title" description="Styles the title of the dice roller fieldset" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20" sub_group=""><![CDATA[{"background-color":"@advbbcodebar_fieldset_title.background-color","background-image":"@advbbcodebar_fieldset_title.background-image","background-repeat":"repeat-x","border-color":"@advbbcodebar_fieldset_title.border-color","border-radius":"4px","border-style":"solid","border-width":"1px","color":"@advbbcodebar_fieldset_title.color","font-size":"@advbbcodebar_fieldset_title.font-size","padding-left":"4px","padding-right":"7px"}]]></property>
+    <property property_name="diceRollerDie" property_type="css" definition="1" group_name="CZ_DiceRoller" title="Dice Roller Die" description="Styles the dice in the dice roller" css_components="text,background,border" scalar_type="" scalar_parameters="" display_order="50" sub_group=""><![CDATA[{"background-color":"@headingBackground","border-color":"@headingBorder","color":"@headingText"}]]></property>
+    <group group_name="CZ_DiceRoller" display_order="20000">
+      <title>[CZ] Dice Roller</title>
+      <description>Dice roller styling</description>
+    </group>
+  </style_properties>
   <templates>
-    <template title="dice" version_id="120" version_string="1.2.0"><![CDATA[<img src="styles/xfa-rpg/dice/{$dice}.png" alt="$dice" />]]></template>
-    <template title="dice.css" version_id="101" version_string="1.0.1"><![CDATA[.dice_container
+    <template title="cz_dice" version_id="1030000" version_string="1.3.0-sv"><![CDATA[<svg id="die_svg" xmlns="http://www.w3.org/2000/svg" width="61px" height="67px">
+<xen:if is="{$user.user_id} == 77">
+	<xen:set var="$dice">100</xen:set>
+</xen:if>
+<title>{$dice}</title>
+	<style>
+		.top_face path
+		{
+			fill:{xen:helper playwithcolors, '{xen:property diceRollerDie.background-color}', 'lighten', 10};
+		}
+		.top_face #roll
+		{
+			fill:{xen:helper playwithcolors, '{xen:property diceRollerDie.color}', 'lighten', 20};
+			stroke:{xen:helper playwithcolors, '{xen:property diceRollerDie.color}', 'lighten', 15};
+			stroke-width: 1;
+			stroke-opacity:0.5;
+		}
+		.back_face path
+		{
+			fill:{xen:helper playwithcolors, '{xen:property diceRollerDie.background-color}', 'darken', 5};
+		}
+		.back_face .pip
+		{
+			fill:{xen:helper playwithcolors, '{xen:property diceRollerDie.color}', 'lighten', 5};
+			stroke:{xen:helper playwithcolors, '{xen:property diceRollerDie.color}', 'lighten', 0};
+			stroke-width: 1;
+			stroke-opacity:0.5;
+		}
+		.front_face path
+		{
+			fill:{xen:property diceRollerDie.background-color};
+		}
+		.front_face .pip
+		{
+			fill:{xen:helper playwithcolors, '{xen:property diceRollerDie.color}', 'lighten', 10};
+			stroke:{xen:helper playwithcolors, '{xen:property diceRollerDie.color}', 'lighten', 5};
+			stroke-width: 1;
+			stroke-opacity:0.5;
+		}		
+	</style>
+
+	<g id="die">
+		<g class="background">
+			<path
+				d="M3 11 L58 24 L51 54 L18 65 L17 65 L1 38 Z"
+				style="fill:{xen:property diceRollerDie.border-color}"
+			/>
+		</g>
+		<g class="top_face">
+			<path
+				d="M3 11 L21 35 L58 24 L36 0 Z"
+			/>
+			<text id="roll" text-anchor="middle"
+				x="29" y="22"
+				transform="rotate(-17.5 39.5 29.5) skewX(18)"
+				font-family="Verdana"
+				{xen:if '{$dice} < 100', 'font-weight="bold"'}
+				font-size="20px"
+			>
+			{$dice}
+			</text>
+		</g>
+		<g class="back_face">
+			<path
+				d="M3 12 L20 36 L17 65 L1 38 Z"			
+			/>
+			<circle class="pip"
+				cx="0" cy="0" r="3"
+				transform="skewX(-10) skewY(35) translate(17 26)"
+			/>
+		</g>
+		<g class="front_face">
+			<path
+				d="M22 36 L58 25 L51 54 L18 65 Z"
+			/>
+			<circle class="pip"
+				cx="0" cy="0" r="3.25"
+				transform="skewX(-10) skewY(-8) translate(36 46)"
+			/>
+			<circle class="pip"
+				cx="0" cy="0" r="2.5"
+				transform="skewX(-10) skewY(-8) translate(55 42)"
+			/>
+			<circle class="pip"
+				cx="0" cy="0" r="2.5"
+				transform="skewX(-10) skewY(-8) translate(35.5 61)"
+			/>
+			<circle class="pip"
+				cx="0" cy="0" r="2"
+				transform="skewX(-10) skewY(-8) translate(54.5 57)"
+			/>
+		</g>
+	</g>
+</svg>]]></template>
+    <template title="cz_dice.css" version_id="1030000" version_string="1.3.0-sv"><![CDATA[/* die */
+
+.dice_container, .listr_container
 {
 	margin: 10px;
 	padding: 10px;
-	border: #000 1px solid;
-	width: 400px;
+	width: 800px;
+	max-width: 90% ;
 }
 
 .moreOptionsLink
@@ -92,17 +203,41 @@
 	margin-left: 10px;
 }
 
-.dice_container legend
+.dice_container legend, .listr_container legend
 {
-	color: {xen:property contentText};
+	{xen:property diceRollerLegend}
 }
 
-fieldset.dice_container
+fieldset.dice_container, fieldset.listr_container
 {
-	border-color: {xen:property contentText};
+	{xen:property diceRoller}
 }
+
+
+.listr_container li
+{
+	margin-left: 15px;
+}
+
+.listr_container .selection
+{
+	margin-top: 10px;
+}
+
+
+/* list data */
+
+#pickListOptions
+{
+	overflow-y: auto;
+	height: 200px;
+}
+
+
+
 ]]></template>
-    <template title="cz_post_diceData" version_id="101" version_string="1.1.1"><![CDATA[<fieldset id="dice-{$message.post_id}-{$diceRoll.boxId}" class="dice_container">
+    <template title="cz_post_diceData" version_id="1030000" version_string="1.3.0-sv"><![CDATA[<div>
+<fieldset id="dice-{$message.post_id}-{$diceRoll.boxId}" class="dice_container">
 	<legend>
 	  {xen:phrase cz_rpg_user_threw_dice, "user=<b>{$message.username}</b>", "faces=<b>{$diceRoll.faces}</b>", "reason=<b>{$diceRoll.reason}</b>"}
 	  {xen:phrase cz_rpg_total}: <b><span id="diceLegendTotal-{$message.post_id}-{$diceRoll.boxId}">{$diceRoll.total}</span></b>
@@ -117,13 +252,13 @@ fieldset.dice_container
 		</button>
 	</xen:if>
 
-</fieldset>]]></template>
-    <template title="cz_post_messageContent_dice" version_id="101" version_string="1.0.1"><![CDATA[<xen:require css="cz_dice.css" />
-<xen:if is="{$message.dice_data}">
+</fieldset>
+</div>]]></template>
+    <template title="cz_post_messageContent_dice" version_id="101" version_string="1.0.1"><![CDATA[<xen:if is="{$message.dice_data}">
+<xen:require css="cz_dice.css" />
 	<xen:foreach loop="$message.dice_data" value="$diceRoll">
 		<xen:include template="cz_post_diceData" />
 	</xen:foreach>
-</xen:if>
 </xen:if>]]></template>
     <template title="cz_post_publicControls_dice" version_id="101" version_string="1.1.1"><![CDATA[<xen:if hascontent="true">
 	<div class="Popup moreOptionsLink">
@@ -160,45 +295,32 @@ fieldset.dice_container
 	</dl>
 <input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
 </form>]]></template>
-	margin: auto;
-	width: 700px;
-	color: #555;
+    <template title="dice" version_id="120" version_string="1.2.0"><![CDATA[<img src="styles/xfa-rpg/dice/{$dice}.png" alt="$dice" />]]></template>
+    <template title="dice.css" version_id="101" version_string="1.0.1"><![CDATA[.dice_container
+{
+	margin: 10px;
+	padding: 10px;
+	border: #000 1px solid;
+	width: 400px;
 }
 
-#countdown_dashboard {
-	height: 110px;
+.moreOptionsLink
+{
+	display: inline;
+	width: 100px;
+	margin-left: 10px;
 }
 
-.dash {
-	width: 110px;
-	height: 114px;
-	background: transparent url('styles/xfa-rpg/dash.png') 0 0 no-repeat;
-	float: left;
-	margin-left: 20px;
-	position: relative;
-}
-
-.dash .digit {
-	font-size: 55pt;
-	font-weight: bold;
-	float: left;
-	width: 55px;
-	text-align: center;
-	font-family: Times;
-	color: #555;
-	position: relative;
-}
-
-.dash_title {
-	position: absolute;
-	display: block;
-	bottom: 0px;
-	right: 6px;
-	font-size: 9pt;
+.dice_container legend
+{
 	color: {xen:property contentText};
-	text-transform: uppercase;
-	letter-spacing: 2px;
-}]]></template>
+}
+
+fieldset.dice_container
+{
+	border-color: {xen:property contentText};
+}
+]]></template>
   </templates>
   <public_template_modifications>
     <modification template="message" modification_key="xfa_dice_message_1" description="dice" execution_order="10" enabled="1" action="str_replace">

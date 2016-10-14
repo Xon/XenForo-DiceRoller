@@ -26,7 +26,7 @@ class xfaDiceRoller_Installer
              SET dice_count = (select count(*)
                                from xf_post_dice
                                join xf_post on xf_post.post_id = xf_post_dice.post_id
-                               where xf_post.thread_id = on xf_thread.thread_id)
+                               where xf_post.thread_id = xf_thread.thread_id)
             ');
         }
     }

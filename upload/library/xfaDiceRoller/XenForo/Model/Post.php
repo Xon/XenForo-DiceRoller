@@ -2,18 +2,19 @@
 
 class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_Post
 {
+    protected static $diceRoller = null;
+    
     public function preparePost(array $post, array $thread, array $forum, array $nodePermissions = null, array $viewingUser = null)
     {
         $this->standardizeViewingUserReferenceForNode($thread['node_id'], $viewingUser, $nodePermissions);
 
         $post = parent::preparePost($post, $thread, $forum, $nodePermissions, $viewingUser);
 
-        static $diceRoller = null;
         if (self::$diceRoller == null)
         {
-            $diceRoller = XenForo_Application::getOptions()->cz_enable_die;
+            self::$diceRoller = XenForo_Application::getOptions()->cz_enable_die;
         }
-        if ($diceRoller)
+        if (self::$diceRoller)
         {
             $post['canViewDice'] = $this->getViewDice($post, $thread, $forum, $nodePermissions, $viewingUser);
             $post['canThrowDie'] = $post['canViewDice'] && $this->getCanThrowDie($post, $thread, $forum, $nodePermissions, $viewingUser);
@@ -51,9 +52,9 @@ class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_
 
         if (self::$diceRoller == null)
         {
-            $diceRoller = XenForo_Application::getOptions()->cz_enable_die;
+            self::$diceRoller = XenForo_Application::getOptions()->cz_enable_die;
         }
-        if ($diceRoller)
+        if (self::$diceRoller)
         {
             $postIds = array();
             foreach ($posts AS $postId => $post)
