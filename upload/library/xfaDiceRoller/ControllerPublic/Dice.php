@@ -30,8 +30,6 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             return $this->responseException($this->responseNoPermission());
         }
 
-        $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
-        $post['dice_data'] = $model->getDiceData($post['post_id']);
 
         // get the faces
         $faces = $this->_input->filterSingle('diceFaces', XenForo_Input::UINT);
@@ -39,7 +37,6 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         {
             throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_incorrect_number_for_faces')));
         }
-
         // check that we don't exceed the maximum faces
         if ($faces < 2)
         {
@@ -50,11 +47,17 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         {
             throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_faces_must_be_at_most_no', array( 'no' => $cz_max_faces ))));
         }
-
         // get the reason, if any
         $reason = $this->_input->filterSingle('diceReason', XenForo_Input::STRING);
-        // and roll the dice
-        list($post, $diceRoll) = $model->throwNewDice($post, $faces, $reason);
+
+        $diceModel = XenForo_Model::create('xfaDiceRoller_Model_Dice');
+
+        XenForo_Db::beginTransaction();
+
+        $post['dice_data'] = $diceModel->getDiceData($post['post_id']);
+        list($post, $diceRoll) = $diceModel->throwNewDice($post, $faces, $reason);
+
+        XenForo_Db::commit();
 
         $viewParams = array(
             'postId' => $post['post_id'],
@@ -96,6 +99,9 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         }
 
         $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
+
+        XenForo_Db::beginTransaction();
+
         $post['dice_data'] = $model->getDiceData($post['post_id']);
 
         if (!isset($post['dice_data']) || !isset($post['dice_data'][$boxId]))
@@ -113,6 +119,8 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
 
         // and roll the dice
         list($post, $diceRoll) = $model->throwDice($post, $boxId);
+
+        XenForo_Db::commit();
 
         $viewParams = array(
             'postId' => $post['post_id'],
