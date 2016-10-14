@@ -41,7 +41,18 @@ class xfaDiceRoller_Model_Dice extends XenForo_Model
             'total' => 0,
         );
 
-        return $this->throwDice($threadId, $postId, $diceData, $boxId);
+        $ret = $this->throwDice($threadId, $postId, $diceData, $boxId);
+
+        $db->query("
+             UPDATE xf_thread
+             SET dice_count = (select count(*)
+                               from xf_post_dice
+                               join xf_post on xf_post.post_id = xf_post_dice.post_id
+                               where xf_post.thread_id = xf_thread.thread_id)
+             WHERE thread_id = ?
+        ", array($threadId));
+
+        return $ret;
     }
 
     public function throwDice($threadId, $postId, array $diceData, $boxId)
@@ -61,15 +72,7 @@ class xfaDiceRoller_Model_Dice extends XenForo_Model
             INSERT INTO xf_post_dice (post_id, dice_data) VALUES (?,?)
             ON DUPLICATE KEY UPDATE
                 dice_data = VALUES(dice_data)
-        ", array($postId, serialize($diceData)));        
-        $db->query("
-             UPDATE xf_thread
-             SET dice_count = (select count(*)
-                               from xf_post_dice
-                               join xf_post on xf_post.post_id = xf_post_dice.post_id
-                               where xf_post.thread_id = xf_thread.thread_id)
-             WHERE thread_id = ?
-        ", array($threadId));
+        ", array($postId, serialize($diceData)));
 
         $dicebox['last_dice'] = $diceRolled;
         return array($diceData, $dicebox);
