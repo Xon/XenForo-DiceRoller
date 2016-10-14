@@ -18,7 +18,7 @@ class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_
             $post['canViewDice'] = $this->getViewDice($post, $thread, $forum, $nodePermissions, $viewingUser);
             $post['canThrowDie'] = $post['canViewDice'] && $this->getCanThrowDie($post, $thread, $forum, $nodePermissions, $viewingUser);
         }
-        if (isset($thread['dice_count']) && !$post['dice_count'])
+        if (isset($thread['dice_count']) && !isset($post['dice_count']))
         {
             $post['thread_dice_count'] = $thread['dice_count'];
         }
@@ -58,7 +58,7 @@ class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_
             $postIds = array();
             foreach ($posts AS $postId => $post)
             {
-                if ($post['thread_dice_count'] && empty($post['isDeleted']) && !empty($post['canViewDice']))
+                if (!empty($post['thread_dice_count']) && empty($post['isDeleted']) && !empty($post['canViewDice']))
                 {
                     $postIds[] = $postId;
                 }
