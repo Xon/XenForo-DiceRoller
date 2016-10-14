@@ -80,7 +80,6 @@ class xfaDiceRoller_XenForo_Model_Post extends XFCP_xfaDiceRoller_XenForo_Model_
                         if ($dice_data && is_array($dice_data))
                         {
                             $posts[$post_id]['dice_data'] = $dice_data;
-                            $posts[$post_id]['dice_box_count'] = count($dice_data);
                         }
                     }
                 }

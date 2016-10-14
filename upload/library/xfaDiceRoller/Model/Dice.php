@@ -2,6 +2,28 @@
 
 class xfaDiceRoller_Model_Dice extends XenForo_Model
 {
+    public function getDiceData($postId)
+    {
+        $dice = $this->fetchAllKeyed('
+            SELECT dice_data
+            FROM xf_post_dice
+            WHERE post_id = ?
+        ', 'post_id', array($postId));
+
+        if (empty($dice['dice_data']))
+        {
+            return null;
+        }
+
+        $dice_data = @unserialize($die['dice_data']);
+        if ($dice_data && is_array($dice_data))
+        {
+            return $dice_data;
+        }
+
+        return null;
+    }
+
     public function throwNewDice(array $post, $faces, $reason = '')
     {
         if (!isset($post['dice_data']) || !is_array($post['dice_data']))
@@ -10,7 +32,7 @@ class xfaDiceRoller_Model_Dice extends XenForo_Model
         }
 
         $boxId = count($post['dice_data']);
-        $post['dice_data'][$boxId] = array( 
+        $post['dice_data'][$boxId] = array(
             'faces' => $faces,
             'boxId' => $boxId,
             'reason' => $reason,

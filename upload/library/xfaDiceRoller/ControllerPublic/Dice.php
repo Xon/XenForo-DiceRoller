@@ -30,6 +30,9 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             return $this->responseException($this->responseNoPermission());
         }
 
+        $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
+        $post['dice_data'] = $model->getDiceData($post['post_id']);
+
         // get the faces
         $faces = $this->_input->filterSingle('diceFaces', XenForo_Input::UINT);
         if (!$faces)
@@ -51,7 +54,6 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         // get the reason, if any
         $reason = $this->_input->filterSingle('diceReason', XenForo_Input::STRING);
         // and roll the dice
-        $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
         list($post, $diceRoll) = $model->throwNewDice($post, $faces, $reason);
 
         $viewParams = array(
@@ -61,7 +63,7 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             'message' => $post,
             'dice' => $diceRoll['last_dice'],
         );
-            
+
         if ($this->_noRedirect())
         {
             return $this->responseView('xfaDiceRoller_ViewPublic_Dice', 'cz_dice', $viewParams);
@@ -92,6 +94,10 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         {
             throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_position_error_to_throw')));
         }
+
+        $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
+        $post['dice_data'] = $model->getDiceData($post['post_id']);
+
         if (!isset($post['dice_data']) || !isset($post['dice_data'][$boxId]))
         {
             throw new XenForo_ControllerResponse_Exception($this->responseError(new XenForo_Phrase('cz_rpg_position_error_not_exists')));
@@ -106,7 +112,6 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         }
 
         // and roll the dice
-        $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
         list($post, $diceRoll) = $model->throwDice($post, $boxId);
 
         $viewParams = array(
@@ -116,7 +121,7 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             'message' => $post,
             'dice' => $diceRoll['last_dice']
         );
-            
+
         if ($this->_noRedirect())
         {
             return $this->responseView('xfaDiceRoller_ViewPublic_Dice', 'cz_dice', $viewParams);
