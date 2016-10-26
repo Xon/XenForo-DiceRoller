@@ -17,6 +17,19 @@ class xfaDiceRoller_XenForo_DataWriter_DiscussionMessage_Post extends XFCP_xfaDi
             ", array($this->getExisting('thread_id')));
         }
 */
+        // only one DataWriter is edited when merging posts
+        if (xfaDiceRoller_Globals::$mergeTargetId && 
+            xfaDiceRoller_Globals::$mergeTargetId == $this->get('post_id') &&
+            $this->isUpdate())
+        {
+            $contentId = $this->get('post_id');
+            /* @var $diceModel xfaDiceRoller_Model_Dice */
+            $diceModel = $this->getModelFromCache('xfaDiceRoller_Model_Dice');
+            if(xfaDiceRoller_Globals::$contentIdsToMerge)
+            {
+                $diceModel->mergeDicePosts($this->get('thread_id'), $contentId, xfaDiceRoller_Globals::$contentIdsToMerge);
+            }
+        }  
     }
 
     protected function _messagePostDelete()

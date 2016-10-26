@@ -44,7 +44,7 @@
     <interface_groups/>
   </permissions>
   <phrases>
-    <phrase title="cz_rpg_cannot_throw_no_die" version_id="111" version_string="1.1.1"><![CDATA[You cannot throw more than {no} die]]></phrase>
+    <phrase title="cz_rpg_cannot_throw_no_dice" version_id="1030000" version_string="1.3.0-sv"><![CDATA[You cannot throw more than {count} dice]]></phrase>
     <phrase title="cz_rpg_faces" version_id="101" version_string="1.1.1"><![CDATA[Faces]]></phrase>
     <phrase title="cz_rpg_faces_must_be_at_least_2" version_id="111" version_string="1.1.1"><![CDATA[You need to type at least 2 faces for the dice]]></phrase>
     <phrase title="cz_rpg_faces_must_be_at_most_no" version_id="111" version_string="1.1.1"><![CDATA[The max number of faces you can use is {no}]]></phrase>
@@ -67,7 +67,7 @@
     <phrase title="option_cz_max_faces_explain" version_id="111" version_string="1.1.1"><![CDATA[The max number of faces that can be used to throw dice. Ideally between 2 and 100]]></phrase>
     <phrase title="option_group_cz_rpg_options" version_id="101" version_string="1.1.1"><![CDATA[RPG Options]]></phrase>
     <phrase title="option_group_cz_rpg_options_description" version_id="101" version_string="1.1.1"><![CDATA[RPG options for your board like throwing die]]></phrase>
-    <phrase title="permission_forum_throwDie" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Can throw a die]]></phrase>
+    <phrase title="permission_forum_throwDie" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Can throw dice]]></phrase>
     <phrase title="permission_forum_viewDice" version_id="1030000" version_string="1.3.0-sv"><![CDATA[View dice]]></phrase>
     <phrase title="style_property_diceRollerDie_description_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Styles the dice in the dice roller]]></phrase>
     <phrase title="style_property_diceRollerDie_master" version_id="1030000" version_string="1.3.0-sv"><![CDATA[Dice Roller Die]]></phrase>
@@ -262,7 +262,7 @@ fieldset.dice_container, fieldset.listr_container
 		<xen:include template="cz_post_diceData" />
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="cz_post_publicControls_dice" version_id="101" version_string="1.1.1"><![CDATA[<xen:if hascontent="true">
+    <template title="cz_post_publicControls_dice" version_id="1030000" version_string="1.3.0-sv"><![CDATA[<xen:if hascontent="true">
 	<div class="Popup moreOptionsLink">
 		<a rel="Menu">{xen:phrase cz_rpg_more_options}</a>
 		<div class="Menu">

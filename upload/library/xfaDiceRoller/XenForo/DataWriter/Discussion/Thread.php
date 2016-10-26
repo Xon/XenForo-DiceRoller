@@ -12,6 +12,7 @@ class xfaDiceRoller_XenForo_DataWriter_Discussion_Thread extends XFCP_xfaDiceRol
     public function rebuildDiscussion()
     {
         parent::rebuildDiscussion();
+        $db = $this->_db;
         $db->query('
             UPDATE xf_thread
             SET dice_count = (select count(*)

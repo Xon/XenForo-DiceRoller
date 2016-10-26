@@ -15,7 +15,7 @@
                 if (ajaxData.error) {
                     XenForo.hasResponseError(ajaxData, textStatus);
                 } else {
-                    $('#dice-' + ajaxData.postId + '-' + ajaxData.boxId + ' .ThrowAnotherDie').before(ajaxData.template);
+                    $('#dice-' + ajaxData.postId + '-' + ajaxData.boxId + ' .ThrowAnotherDie').before(ajaxData.templateHtml);
                     $('#diceLegendTotal-' + ajaxData.postId + '-' + ajaxData.boxId).html(ajaxData.total);
                 }
             });

@@ -2,6 +2,62 @@
 
 class xfaDiceRoller_Model_Dice extends XenForo_Model
 {
+    public function mergeDicePosts($threadId, $targetPostId, $postIds)
+    {
+        $db = $this->_getDb();
+        $dice = $this->fetchAllKeyed('
+            SELECT *
+            FROM xf_post_dice
+            WHERE post_id in ( ' .$db->quote($postIds). ' )
+        ', 'post_id');
+        if (empty($dice))
+        {
+            return;
+        }
+
+        $targetDiceData = !empty($dice[$targetPostId]['dice_data']) ? @unserialize($dice[$targetPostId]['dice_data']) : array();
+        if ($targetDiceData === false)
+        {
+            $targetDiceData = array();
+        }
+        $targetHasNoDiceData = empty($targetDiceData);
+
+        $boxId = count($targetDiceData);
+        foreach($postIds as $postId)
+        {
+            if($targetPostId == $postId)
+            {
+                continue;
+            }
+            if (empty($dice[$postId]) || empty($dice[$postId]['dice_data']))
+            {
+                continue;
+            }
+
+            $dice_data = @unserialize($dice[$postId]['dice_data']);
+
+            foreach($dice_data as $rollset)
+            {
+                $rollset['boxId'] = $boxId;
+                $targetDiceData[$boxId] = $rollset;
+                $boxId += 1;
+            }
+        }
+
+        if ($targetHasNoDiceData)
+        {
+            $this->_db->query("
+                update xf_thread set dice_count = dice_count + 1 where thread_id = ?
+            ", array($threadId));
+        }
+
+        $db->query("
+            INSERT INTO xf_post_dice (post_id, dice_data) VALUES (?,?)
+            ON DUPLICATE KEY UPDATE
+                dice_data = VALUES(dice_data)
+        ", array($targetPostId, serialize($targetDiceData)));
+    }
+
     public function getDiceData($postId)
     {
         $dice = $this->_getDb()->fetchRow('
@@ -25,7 +81,7 @@ class xfaDiceRoller_Model_Dice extends XenForo_Model
         return null;
     }
 
-    public function throwNewDice($threadId, $postId, array $diceData, $faces, $reason = '')
+    public function throwNewDice($threadId, $postId, array $diceData = null, $faces, $reason = '')
     {
         if (empty($diceData))
         {
@@ -43,6 +99,7 @@ class xfaDiceRoller_Model_Dice extends XenForo_Model
 
         $ret = $this->throwDice($threadId, $postId, $diceData, $boxId);
 
+        $db = $this->_getDb();
         $db->query("
              UPDATE xf_thread
              SET dice_count = (select count(*)

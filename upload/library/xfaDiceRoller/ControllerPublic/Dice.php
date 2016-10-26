@@ -59,9 +59,9 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         XenForo_Db::beginTransaction();
 
         $diceData = $diceModel->getDiceData($post['post_id']);
-        list($diceData, $diceRoll) = $diceModel->throwNewDice($post['thread_id'], $post['post_id'], $diceData, $faces, $reason);        
+        list($diceData, $diceRoll) = $diceModel->throwNewDice($post['thread_id'], $post['post_id'], $diceData, $faces, $reason);
 
-        XenForo_Db::commit();        
+        XenForo_Db::commit();
 
         $viewParams = array(
             'postId' => $post['post_id'],
@@ -129,7 +129,7 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
         $cz_max_die_per_box = XenForo_Application::getOptions()->cz_max_die_per_box;
         if (count($diceBox['roll']) >= $cz_max_die_per_box)
         {
-            return $this->responseError(new XenForo_Phrase('cz_rpg_cannot_throw_no_die', array ( 'no' => $cz_max_die_per_box )));
+            return $this->responseError(new XenForo_Phrase('cz_rpg_cannot_throw_no_dice', array ( 'count' => $cz_max_die_per_box )));
         }
 
         // and roll the dice
