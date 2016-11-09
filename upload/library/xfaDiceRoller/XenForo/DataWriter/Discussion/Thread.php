@@ -11,7 +11,8 @@ class xfaDiceRoller_XenForo_DataWriter_Discussion_Thread extends XFCP_xfaDiceRol
 
     public function rebuildDiscussion()
     {
-        parent::rebuildDiscussion();
+        $ret = parent::rebuildDiscussion();
+
         $db = $this->_db;
         $db->query('
             UPDATE xf_thread
@@ -21,6 +22,9 @@ class xfaDiceRoller_XenForo_DataWriter_Discussion_Thread extends XFCP_xfaDiceRol
                             where xf_post.thread_id = xf_thread.thread_id)
             WHERE thread_id = ?
         ', $this->get('thread_id'));
+
+        // must return of the thread will be deleted!!!
+        return $ret;
     }
 }
 
