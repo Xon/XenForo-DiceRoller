@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="xfa_dice" title="XFA - RPG Features" version_string="1.2.1" version_id="121" url="http://xfaddons.com/resources/throw-a-dice.6/" install_callback_class="XfAddOns_RpgFeatures_Install_Install" install_callback_method="install" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_model" execute_order="10" callback_class="XfAddOns_RpgFeatures_Listener_Post" callback_method="listen" active="1" hint="" description="Extend the Post Model with functionality for throwing a dice"/>
+    <listener event_id="template_create" execute_order="10" callback_class="XfAddOns_RpgFeatures_Template_Hook" callback_method="templateCreate" active="1" hint="" description="Preload the option to throw the dice"/>
+    <listener event_id="template_hook" execute_order="10" callback_class="XfAddOns_RpgFeatures_Template_Hook" callback_method="template" active="1" hint="" description="Enable the option to throw the dice"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="cz_rpg_options" display_order="4000" debug_only="0"/>
+    <option option_id="cz_enable_countdown" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="cz_rpg_options" display_order="1"/>
+    </option>
+    <option option_id="cz_enable_die" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="cz_rpg_options" display_order="1"/>
+    </option>
+    <option option_id="cz_enable_list" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="cz_rpg_options" display_order="1"/>
+    </option>
+    <option option_id="cz_max_die_per_box" edit_format="textbox" data_type="integer" can_backup="1">
+      <default_value>12</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="cz_rpg_options" display_order="1"/>
+    </option>
+    <option option_id="cz_max_faces" edit_format="textbox" data_type="integer" can_backup="1">
+      <default_value>90</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="cz_rpg_options" display_order="1"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="cz_rpg_add_a_countdown" version_id="101" version_string="1.1.1"><![CDATA[Add a countdown]]></phrase>
+    <phrase title="cz_rpg_add_countdown" version_id="111" version_string="1.1.1"><![CDATA[Add countdown]]></phrase>
+    <phrase title="cz_rpg_cannot_throw_no_die" version_id="111" version_string="1.1.1"><![CDATA[You cannot throw more than {no} die]]></phrase>
+    <phrase title="cz_rpg_choose_from_a_list" version_id="101" version_string="1.1.1"><![CDATA[Choose from a list]]></phrase>
+    <phrase title="cz_rpg_choose_from_list" version_id="101" version_string="1.1.1"><![CDATA[Choosing from a list]]></phrase>
+    <phrase title="cz_rpg_faces" version_id="101" version_string="1.1.1"><![CDATA[Faces]]></phrase>
+    <phrase title="cz_rpg_faces_must_be_at_least_2" version_id="111" version_string="1.1.1"><![CDATA[You need to type at least 2 faces for the dice]]></phrase>
+    <phrase title="cz_rpg_faces_must_be_at_most_no" version_id="111" version_string="1.1.1"><![CDATA[The max number of faces you can use is {no}]]></phrase>
+    <phrase title="cz_rpg_from_the_options" version_id="101" version_string="1.1.1"><![CDATA[From the options]]></phrase>
+    <phrase title="cz_rpg_incorrect_number_for_faces" version_id="111" version_string="1.1.1"><![CDATA[The number of faces of the dice is not correct]]></phrase>
+    <phrase title="cz_rpg_minutes" version_id="101" version_string="1.1.1"><![CDATA[minutes]]></phrase>
+    <phrase title="cz_rpg_more_options" version_id="101" version_string="1.1.1"><![CDATA[More options]]></phrase>
+    <phrase title="cz_rpg_must_write_list_of_options" version_id="111" version_string="1.1.1"><![CDATA[You must write a list of at least 2 options]]></phrase>
+    <phrase title="cz_rpg_no_permissions_choose_list" version_id="111" version_string="1.1.1"><![CDATA[You do not have permissions to use the choose from a list]]></phrase>
+    <phrase title="cz_rpg_no_permissions_to_add_countdown" version_id="111" version_string="1.1.1"><![CDATA[You don't have permissions to add a countdown]]></phrase>
+    <phrase title="cz_rpg_no_permissions_to_throw_dice" version_id="111" version_string="1.1.1"><![CDATA[You don't have permissions to throw a dice in this post]]></phrase>
+    <phrase title="cz_rpg_option_no" version_id="101" version_string="1.1.1"><![CDATA[Option {no}]]></phrase>
+    <phrase title="cz_rpg_please_enter_post_to_throw" version_id="111" version_string="1.1.1"><![CDATA[You don't seem to have thrown a dice in a post, enter the post]]></phrase>
+    <phrase title="cz_rpg_position_error_not_exists" version_id="111" version_string="1.1.1"><![CDATA[Error. The position you are trying to throw the dice in does not exist.]]></phrase>
+    <phrase title="cz_rpg_position_error_to_throw" version_id="111" version_string="1.1.1"><![CDATA[The position you are trying to throw the dice is not valid]]></phrase>
+    <phrase title="cz_rpg_random_pick" version_id="101" version_string="1.1.1"><![CDATA[Random pick]]></phrase>
+    <phrase title="cz_rpg_random_selection_is" version_id="101" version_string="1.1.1"><![CDATA[Random selection is]]></phrase>
+    <phrase title="cz_rpg_seconds" version_id="101" version_string="1.1.1"><![CDATA[seconds]]></phrase>
+    <phrase title="cz_rpg_throwing_a_dice_for" version_id="101" version_string="1.1.1"><![CDATA[Throwing a dice for]]></phrase>
+    <phrase title="cz_rpg_throw_another_dice" version_id="101" version_string="1.1.1"><![CDATA[Throw another dice]]></phrase>
+    <phrase title="cz_rpg_throw_a_dice" version_id="101" version_string="1.1.1"><![CDATA[Throw a dice]]></phrase>
+    <phrase title="cz_rpg_total" version_id="101" version_string="1.1.1"><![CDATA[Total]]></phrase>
+    <phrase title="cz_rpg_user_threw_dice" version_id="101" version_string="1.1.1"><![CDATA[{user} threw {faces}-faced die for: {reason}]]></phrase>
+    <phrase title="cz_rpg_when_countdown_ends" version_id="111" version_string="1.1.1"><![CDATA[When should the countdown end?]]></phrase>
+    <phrase title="option_cz_enable_countdown" version_id="101" version_string="1.1.1"><![CDATA[Enable "Add a countdown"]]></phrase>
+    <phrase title="option_cz_enable_countdown_explain" version_id="101" version_string="1.1.1"><![CDATA[If enabled, "Add a countdown" will be shown in the post]]></phrase>
+    <phrase title="option_cz_enable_die" version_id="101" version_string="1.1.1"><![CDATA[Enable die]]></phrase>
+    <phrase title="option_cz_enable_die_explain" version_id="101" version_string="1.1.1"><![CDATA[If enabled, "Throw a dice" will be shown in the post]]></phrase>
+    <phrase title="option_cz_enable_list" version_id="101" version_string="1.1.1"><![CDATA[Enable choose from a list]]></phrase>
+    <phrase title="option_cz_enable_list_explain" version_id="101" version_string="1.1.1"><![CDATA[If enabled, "Choose from a list" will be shown in the post]]></phrase>
+    <phrase title="option_cz_max_die_per_box" version_id="111" version_string="1.1.1"><![CDATA[Max number of die per box]]></phrase>
+    <phrase title="option_cz_max_die_per_box_explain" version_id="111" version_string="1.1.1"><![CDATA[Maximum number of die that can be thrown in a single box inside a post. Try to have something not too high.]]></phrase>
+    <phrase title="option_cz_max_faces" version_id="111" version_string="1.1.1"><![CDATA[Faces for die throwing]]></phrase>
+    <phrase title="option_cz_max_faces_explain" version_id="111" version_string="1.1.1"><![CDATA[The max number of faces that can be used to throw a dice. Ideally between 2 and 100]]></phrase>
+    <phrase title="option_group_cz_rpg_options" version_id="101" version_string="1.1.1"><![CDATA[RPG Options]]></phrase>
+    <phrase title="option_group_cz_rpg_options_description" version_id="101" version_string="1.1.1"><![CDATA[RPG options for your board like throwing die]]></phrase>
+    <phrase title="xfa_rpg_dice_thrown" version_id="120" version_string="1.2.0"><![CDATA[Dice thrown]]></phrase>
+  </phrases>
+  <route_prefixes>
+    <route_type type="public">
+      <prefix original_prefix="cz-dice" class="XfAddOns_RpgFeatures_Route_Prefix_Post" build_link="data_only"/>
+    </route_type>
+  </route_prefixes>
+  <style_properties/>
+  <templates>
+    <template title="cz_dice" version_id="120" version_string="1.2.0"><![CDATA[<img src="styles/xfa-rpg/dice/{$dice}.png" alt="$dice" />]]></template>
+    <template title="cz_dice.css" version_id="101" version_string="1.0.1"><![CDATA[/* die */
+
+.dice_container, .listr_container
+{
+	margin: 10px;
+	padding: 10px;
+	border: #000 1px solid;
+	width: 400px;
+}
+
+.moreOptionsLink
+{
+	display: inline;
+	width: 100px;
+	margin-left: 10px;
+}
+
+.dice_container legend, .listr_container legend
+{
+	color: {xen:property contentText};
+}
+
+fieldset.dice_container, fieldset.listr_container
+{
+	border-color: {xen:property contentText};
+}
+
+
+.listr_container li
+{
+	margin-left: 15px;
+}
+
+.listr_container .selection
+{
+	margin-top: 10px;
+}
+
+
+/* list data */
+
+#pickListOptions
+{
+	overflow-y: auto;
+	height: 200px;
+}
+
+
+
+]]></template>
+    <template title="cz_post_diceData" version_id="101" version_string="1.1.1"><![CDATA[<fieldset id="dice-{$message.post_id}-{$diceRoll.boxId}" class="dice_container">
+	<legend>
+	  {xen:phrase cz_rpg_user_threw_dice, "user=<b>{$message.username}</b>", "faces=<b>{$diceRoll.faces}</b>", "reason=<b>{$diceRoll.reason}</b>"}
+	  {xen:phrase cz_rpg_total}: <b><span id="diceLegendTotal-{$message.post_id}-{$diceRoll.boxId}">{$diceRoll.total}</span></b>
+	</legend>
+	<xen:foreach loop="$diceRoll.roll" value="$dice">
+		<xen:include template="cz_dice" />
+	</xen:foreach>
+
+	<xen:if is="{$message.canThrowDice}">
+		<button type="button" class="ThrowNewDice button" data-url="{xen:link 'cz-dice/existing-dice', $message, 'boxId={$diceRoll.boxId}'}">
+			{xen:phrase cz_rpg_throw_another_dice}
+		</button>
+	</xen:if>
+
+</fieldset>]]></template>
+    <template title="cz_post_listData" version_id="101" version_string="1.1.1"><![CDATA[<fieldset id="dice-{$message.post_id}-{$listRoll.boxId}" class="listr_container">
+	<legend>{xen:phrase cz_rpg_choose_from_list}</legend>
+	<p>{xen:phrase cz_rpg_from_the_options}:
+	<ul>
+	<xen:foreach loop="$listRoll.options" value="$opt">
+		<li>{$opt}</li>
+	</xen:foreach></ul></p>
+
+	<p class="selection">{xen:phrase cz_rpg_random_selection_is}: {$listRoll.selectedOption}</p>
+</fieldset>]]></template>
+    <template title="cz_post_messageContent_dice" version_id="101" version_string="1.0.1"><![CDATA[<xen:require css="cz_dice.css" />
+<xen:if is="{$message.dice_data}">
+	<xen:foreach loop="$message.dice_data" value="$diceRoll">
+		<xen:include template="cz_post_diceData" />
+	</xen:foreach>
+</xen:if>
+<xen:if is="{$message.list_data}">
+	<xen:foreach loop="$message.list_data" value="$listRoll">
+		<xen:include template="cz_post_listData" />
+	</xen:foreach>
+</xen:if>]]></template>
+    <template title="cz_post_publicControls_dice" version_id="101" version_string="1.1.1"><![CDATA[<xen:if hascontent="true">
+	<div class="Popup moreOptionsLink">
+		<a rel="Menu">{xen:phrase cz_rpg_more_options}</a>
+		<div class="Menu">
+			<div class="primaryContent menuHeader"><h3>{xen:phrase cz_rpg_more_options}</h3></div>
+			<ul class="secondaryContent blockLinksList">
+				<xen:contentcheck>
+					<xen:if is="{$post.canRpgAction} AND {$xenOptions.cz_enable_die}">
+						<a href="{xen:link cz-dice/show-options-dice, $post}" class="OverlayTrigger item control"><span></span>{xen:phrase cz_rpg_throw_a_dice}</a>
+					</xen:if>
+					<xen:if is="{$post.canRpgAction} AND {$xenOptions.cz_enable_list}">
+						<a href="{xen:link cz-dice/show-options-list, $post}" class="OverlayTrigger item control"><span></span>{xen:phrase cz_rpg_choose_from_a_list}</a>
+					</xen:if>
+					<xen:if is="{$post.canAddCounter} AND {$xenOptions.cz_enable_countdown}">
+						<a href="{xen:link cz-dice/show-counter, $post, 'thread_id={$post.thread_id}'}" class="OverlayTrigger item control"><span></span>{xen:phrase cz_rpg_add_a_countdown}</a>
+					</xen:if>	
+				</xen:contentcheck>
+			</ul>
+		</div>
+	</div>
+</xen:if>]]></template>
+    <template title="cz_rpg_counter_overlay" version_id="111" version_string="1.1.1"><![CDATA[<xen:title>{xen:phrase cz_rpg_add_a_countdown}</xen:title>
+<xen:h1>{xen:phrase cz_rpg_add_a_countdown}</xen:h1>
+
+<form action="{xen:link 'cz-dice/configure-counter', $post, 'thread_id={$thread.thread_id}'}" method="post" class="xenForm formOverlay AutoValidator" id="RpgConfigureCounterForm">
+	<dl class="ctrlUnit">
+		<dt>{xen:phrase cz_rpg_when_countdown_ends}</dt>
+		<dd>
+			<input type="date" name="end_date" value="{$end_date}" class="textCtrl" id="ctrl_date" style="width:200px; display: inline" />
+			<select class="textCtrl" name="hour" style="width:50px; min-width: 50px;">
+				<xen:foreach loop="$hours" value="$hour">
+					<option value="{$hour}" {xen:if "{$selectedHour} == {$hour}", 'selected'}>{$hour}</option>	
+				</xen:foreach>
+			</select>
+			<select class="textCtrl" name="minute" style="width:50px; min-width: 50px;">
+				<xen:foreach loop="$minutes" value="$minute">
+					<option value="{$minute}" {xen:if "{$selectedMinute} == {$minute}", 'selected'}>{xen:if "{$minute} < 10", '0'}{$minute}</option>	
+				</xen:foreach>
+			</select>			
+		</dd>
+	</dl>
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<button id="pickListBtn" type="submit" class="button primary">{xen:phrase cz_rpg_add_countdown}</button>
+		</dd>
+	</dl>
+<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="cz_rpg_dice_overlay" version_id="111" version_string="1.1.1"><![CDATA[<xen:title>{xen:phrase cz_rpg_throw_a_dice}</xen:title>
+<xen:h1>{xen:phrase cz_rpg_throw_a_dice}</xen:h1>
+
+<form action="{xen:link 'cz-dice/new-dice', $post}" method="post" class="xenForm formOverlay AutoValidator" id="DiceRollForm">
+	<dl class="ctrlUnit">
+		<dt>{xen:phrase cz_rpg_throwing_a_dice_for} ... </dt>
+		<dd><input id="diceReason" name="diceReason" type="text" value="" class="textCtrl" maxlength="30" /></dd>
+	</dl>
+	<dl class="ctrlUnit">
+		<dt>{xen:phrase cz_rpg_faces}</dt>
+		<dd><input id="diceFaces" name="diceFaces" type="text" value="6" class="textCtrl" /></dd>
+	</dl>
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<button id="throwDiceBtn" type="submit" class="button primary">{xen:phrase cz_rpg_throw_a_dice}</button>
+		</dd>
+	</dl>
+<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="cz_rpg_list_overlay" version_id="101" version_string="1.1.1"><![CDATA[<xen:title>{xen:phrase cz_rpg_choose_from_a_list}</xen:title>
+<xen:h1>{xen:phrase cz_rpg_choose_from_a_list}</xen:h1>
+
+<form action="{xen:link 'cz-dice/pick-option-from-list', $post}" method="post" class="xenForm formOverlay AutoValidator" id="PickListForm">
+	<div id="pickListOptions">
+		<dl class="ctrlUnit">
+			<dt>{xen:phrase cz_rpg_option_no, "no=1"} .. </dt>
+			<dd><input type="text" name="options[]" value="" class="textCtrl LastPickListItem" /></dd>
+		</dl>
+		<dl class="ctrlUnit">
+			<dt>{xen:phrase cz_rpg_option_no, "no=2"} ..</dt>
+			<dd><input type="text" name="options[]" value="" class="textCtrl NextPickListItem" /></dd>
+		</dl>
+	</div>
+	<dl id="pickListTemplate" class="ctrlUnit" style="display: none">
+		<dt>{xen:phrase cz_rpg_option_no, "no="} <span class="optionNo"></span> .. </dt>
+		<dd><input type="text" name="options[]" value="" class="textCtrl" /></dd>
+	</dl>
+	
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<button id="pickListBtn" type="submit" class="button primary">{xen:phrase cz_rpg_random_pick}</button>
+		</dd>
+	</dl>
+<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="cz_rpg_thread_view_counter" version_id="101" version_string="1.1.1"><![CDATA[<xen:require css="cz_rpg_thread_view_counter.css" />
+
+<div id="container_dashboard">
+<div id="countdown_dashboard">
+	<div class="dash weeks_dash">
+		<span class="dash_title">{xen:phrase weeks}</span>
+		<div class="digit">{$weeks.0}</div>
+		<div class="digit">{$weeks.1}</div>
+	</div>
+
+	<div class="dash days_dash">
+		<span class="dash_title">{xen:phrase days}</span>
+		<div class="digit">{$days.0}</div>
+		<div class="digit">{$days.1}</div>
+	</div>
+
+	<div class="dash hours_dash">
+		<span class="dash_title">{xen:phrase hours}</span>
+		<div class="digit">{$hours.0}</div>
+		<div class="digit">{$hours.1}</div>
+	</div>
+
+	<div class="dash minutes_dash">
+		<span class="dash_title">{xen:phrase cz_rpg_minutes}</span>
+		<div class="digit">{$minutes.0}</div>
+		<div class="digit">{$minutes.1}</div>
+	</div>
+
+	<div class="dash seconds_dash">
+		<span class="dash_title">{xen:phrase cz_rpg_seconds}</span>
+		<div class="digit">{$seconds.0}</div>
+		<div class="digit">{$seconds.1}</div>
+	</div>
+</div>
+</div>
+
+<script>
+$('#countdown_dashboard').countDown({
+	targetOffset: {
+		'day': 		{$days.2},
+		'month': 	0,
+		'week': 	{$weeks.2},		
+		'year': 	0,
+		'hour': 	{$hours.2},
+		'min': 		{$minutes.2},
+		'sec': 		{$seconds.2}
+	}
+});
+</script>]]></template>
+    <template title="cz_rpg_thread_view_counter.css" version_id="120" version_string="1.2.0"><![CDATA[#container_dashboard {
+	margin: auto;
+	width: 700px;
+	color: #555;
+}
+
+#countdown_dashboard {
+	height: 110px;
+}
+
+.dash {
+	width: 110px;
+	height: 114px;
+	background: transparent url('styles/xfa-rpg/dash.png') 0 0 no-repeat;
+	float: left;
+	margin-left: 20px;
+	position: relative;
+}
+
+.dash .digit {
+	font-size: 55pt;
+	font-weight: bold;
+	float: left;
+	width: 55px;
+	text-align: center;
+	font-family: Times;
+	color: #555;
+	position: relative;
+}
+
+.dash_title {
+	position: absolute;
+	display: block;
+	bottom: 0px;
+	right: 6px;
+	font-size: 9pt;
+	color: {xen:property contentText};
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}]]></template>
+  </templates>
+  <public_template_modifications/>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
