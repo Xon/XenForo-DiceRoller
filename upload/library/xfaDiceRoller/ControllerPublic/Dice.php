@@ -34,7 +34,6 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
             return $this->responseNoPermission();
         }
 
-
         // get the faces
         $faces = $this->_input->filterSingle('diceFaces', XenForo_Input::UINT);
         if (!$faces)
@@ -56,6 +55,7 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
 
         $diceModel = XenForo_Model::create('xfaDiceRoller_Model_Dice');
 
+        $this->assertNotFlooding('dice', 1);
         XenForo_Db::beginTransaction();
 
         $diceData = $diceModel->getDiceData($post['post_id']);
@@ -115,6 +115,7 @@ class xfaDiceRoller_ControllerPublic_Dice extends XenForo_ControllerPublic_Abstr
 
         $model = XenForo_Model::create('xfaDiceRoller_Model_Dice');
 
+        $this->assertNotFlooding('dice', 1);
         XenForo_Db::beginTransaction();
 
         $diceData = $model->getDiceData($post['post_id']);
