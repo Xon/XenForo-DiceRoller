@@ -31,7 +31,7 @@ class xfaDiceRoller_XenForo_DataWriter_DiscussionMessage_Post extends XFCP_xfaDi
         if ($deleteResult->rowCount())
         {
             $this->_db->query("
-                update xf_thread set dice_count = GREATEST(dice_count - 1, 0) where thread_id = ?
+                update xf_thread set dice_count = GREATEST(cast(dice_count as signed) - 1, 0) where thread_id = ?
             ", array($this->get('thread_id')));
         }
     }
