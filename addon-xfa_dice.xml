@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="xfa_dice" title="Dice Roller" version_string="1.3.3" version_id="1030300" url="https://atelieraphelion.com/" install_callback_class="xfaDiceRoller_Installer" install_callback_method="install" uninstall_callback_class="xfaDiceRoller_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="xfa_dice" title="DiceRoller" version_string="1.3.4" version_id="1030400" url="https://atelieraphelion.com/" install_callback_class="xfaDiceRoller_Installer" install_callback_method="install" uninstall_callback_class="xfaDiceRoller_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -87,17 +87,14 @@
   <style_properties>
     <property property_name="diceRoller" property_type="css" definition="1" group_name="CZ_DiceRoller" title="Dice Roller" description="Styles the main dice roller fieldset" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="10" sub_group=""><![CDATA[{"background-color":"@advbbcodebar_fieldset.background-color","border-color":"@advbbcodebar_fieldset.border-color","border-radius":"5px","border-style":"solid","border-width":"1px","extra":"-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);\n-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);\nbox-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);","padding-bottom":"5px","padding-left":"10px","padding-right":"10px","padding-top":"5px"}]]></property>
     <property property_name="diceRollerLegend" property_type="css" definition="1" group_name="CZ_DiceRoller" title="Dice Roller Title" description="Styles the title of the dice roller fieldset" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20" sub_group=""><![CDATA[{"background-color":"@advbbcodebar_fieldset_title.background-color","background-image":"@advbbcodebar_fieldset_title.background-image","background-repeat":"repeat-x","border-color":"@advbbcodebar_fieldset_title.border-color","border-radius":"4px","border-style":"solid","border-width":"1px","color":"@advbbcodebar_fieldset_title.color","font-size":"@advbbcodebar_fieldset_title.font-size","padding-left":"4px","padding-right":"7px"}]]></property>
-    <property property_name="diceRollerDie" property_type="css" definition="1" group_name="CZ_DiceRoller" title="Dice Roller Die" description="Styles the dice in the dice roller" css_components="text,background,border" scalar_type="" scalar_parameters="" display_order="50" sub_group=""><![CDATA[{"background-color":"@headingBackground","border-color":"@headingBorder","color":"@headingText"}]]></property>
+    <property property_name="diceRollerDie" property_type="css" definition="1" group_name="CZ_DiceRoller" title="Dice Roller Die" description="Styles the dice in the dice roller" css_components="text,background,border" scalar_type="" scalar_parameters="" display_order="50" sub_group=""><![CDATA[{"background-color":"@primaryDarker","border-color":"@headingBorder","color":"@contentBackground"}]]></property>
     <group group_name="CZ_DiceRoller" display_order="20000">
       <title>[CZ] Dice Roller</title>
       <description>Dice roller styling</description>
     </group>
   </style_properties>
   <templates>
-    <template title="cz_dice" version_id="1030000" version_string="1.3.0-sv"><![CDATA[<svg id="die_svg" xmlns="http://www.w3.org/2000/svg" width="61px" height="67px">
-<xen:if is="{$user.user_id} == 77">
-	<xen:set var="$dice">100</xen:set>
-</xen:if>
+    <template title="cz_dice" version_id="1030400" version_string="1.3.4"><![CDATA[<svg id="die_svg" xmlns="http://www.w3.org/2000/svg" width="61px" height="67px">
 <title>{$dice}</title>
 	<style>
 		.top_face path
